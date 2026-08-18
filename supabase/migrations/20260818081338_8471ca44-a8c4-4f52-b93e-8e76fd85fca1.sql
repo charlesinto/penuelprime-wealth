@@ -1,0 +1,1 @@
+DELETE FROM public.interest_applications WHERE email = 'qa.check@example.com';

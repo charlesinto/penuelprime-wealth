@@ -1,0 +1,48 @@
+// Prisma schema for the Wealth Club application.
+// This is the source of truth for the database schema.
+// The app uses Prisma ORM for all database operations via server functions.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model WealthClubMember {
+  id        String   @id @default(uuid()) @db.Uuid
+  fullName  String   @map("full_name")
+  phone     String
+  email     String
+  source    String   @default("landing")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([email], map: "wealth_club_members_email_key")
+  @@map("wealth_club_members")
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid()) @db.Uuid
+  fullName  String   @map("full_name")
+  email     String
+  phone     String
+  message   String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("contact_messages")
+}
+
+model InterestApplication {
+  id             String   @id @default(uuid()) @db.Uuid
+  fullName       String   @map("full_name")
+  email          String
+  phone          String
+  tier           String
+  timeline       String?
+  referralSource String?  @map("referral_source")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("interest_applications")
+}
